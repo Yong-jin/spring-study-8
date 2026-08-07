@@ -6,14 +6,21 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Quiz07Controller {
 
 	
-	@GetMapping("/quiz07/listTest")
-	public String listTest(@RequestParam String type,
+	// Quiz07 원본
+//	@GetMapping("/quiz07/listTest")
+//	public String listTest(@RequestParam String type,
+//							Model model) {
+
+	// Quiz09 로 인한 추가변경사항
+	@GetMapping("/quiz07/listTest/{type}")
+	public String listTest(@PathVariable String type,
 							Model model) {
 		
 		// 1) type 값에 따라 구분해서 별도의 페이지로 연결
