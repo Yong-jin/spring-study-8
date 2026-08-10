@@ -9,5 +9,7 @@
 <body>
 	<h1>targetPage</h1>
 	<p>${accessUrl}</p>
+<%-- 	<p>${sessionScope.accessUrl}</p> --%>
+	<p>${fromhide3}</p>
 </body>
 </html>
