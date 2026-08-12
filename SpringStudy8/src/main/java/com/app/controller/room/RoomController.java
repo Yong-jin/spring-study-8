@@ -22,6 +22,8 @@ public class RoomController {
 	@GetMapping("/rooms")
 	public String rooms(Model model) {
 		
+		System.out.println("[Controller] /rooms 호출");
+		
 		//호실정보
 		//Controller -> Service -> DAO  <-> DB
 		
