@@ -24,6 +24,14 @@ public class RoomDAOImpl implements RoomDAO {
 		// return
 		return null;
 	}
+
+	@Override
+	public int saveRoom(Room room) {
+
+		//DB에 room정보 테이블에 room 정보를 저장
+		
+		return 0;
+	}
 	
 }
 
