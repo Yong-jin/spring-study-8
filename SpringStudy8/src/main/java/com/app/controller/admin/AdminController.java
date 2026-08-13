@@ -30,7 +30,9 @@ public class AdminController {
 		
 		int result = roomService.saveRoom(room);
 		
+		
 		// result 값 확인 -> 성공/실패 -> 진행
+		System.out.println("insert 처리 결과 리턴받은 적용된 행의 수: " +  result);
 		
 		return "admin/registerRoom";
 		
