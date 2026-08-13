@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.app.dto.room.Room;
+import com.app.dto.user.User;
 import com.app.service.room.RoomService;
+import com.app.service.user.UserService;
 
 @Controller
 public class AdminController {
@@ -19,6 +21,9 @@ public class AdminController {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping("/admin/registerRoom")
 	public String registerRoom() {
@@ -58,6 +63,58 @@ public class AdminController {
 		
 		return "admin/rooms";		
 	}
+	
+	
+	
+	//관리자가 사용자계정관리 -> 사용자 계정 임의로 추가
+	@GetMapping("/admin/users/add")
+	public String addUser() {
+		return "admin/addUser";
+	}
+	
+	@PostMapping("/admin/users/add")
+	//public String addUserAction(@ModelAttribute User user) {
+	public String addUserAction(User user) {
+		//model.addAttribute("user", user);
+		
+		//user 정보를 DB에 저장
+		System.out.println(user);
+		
+		//고객의 id와 name 만 보유
+		//고객의 계정 -> userType 값이 "CUS" 코드로 저장되어야함.
+		
+		
+		/*
+			1) 컨트롤러에서 바로 처리
+			user.setUserType("CUS");
+			int result = userService.saveUser(user);
+			
+			2) 서비스 계층/레이어/레벨 에서 사용자를 저장하는 메소드 형태로 사용
+			int result = userService.saveCustomerUser(user);
+		 */
+		
+		//Controller  사용자 -> 요청/응답 처리(흐름)
+		//Service  업무규칙, 비즈니스로직 핵심 처리
+		//DAO(Repository)  데이터 접근 처리 (DB, API ...)
+		
+		
+		int result = userService.saveCustomerUser(user);
+		
+		if(result > 0) {
+		} else {
+		}
+		
+		return "admin/addUser";		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 
