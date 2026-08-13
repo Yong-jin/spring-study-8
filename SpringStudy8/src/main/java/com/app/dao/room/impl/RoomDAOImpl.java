@@ -43,6 +43,15 @@ public class RoomDAOImpl implements RoomDAO {
 		
 		return result;
 	}
+
+	@Override
+	public Room findRoomByRoomId(int roomId) {
+		// TODO Auto-generated method stub
+		
+		Room room = sqlSessionTemplate.selectOne("room_mapper.findRoomByRoomId",  roomId);
+		
+		return room;
+	}
 	
 }
 
