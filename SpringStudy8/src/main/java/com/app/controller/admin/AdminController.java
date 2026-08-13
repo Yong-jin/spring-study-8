@@ -2,6 +2,8 @@ package com.app.controller.admin;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,6 +87,24 @@ public class AdminController {
 	
 	
 	
+	//객실정보 삭제
+	// @GetMapping("/admin/removeRoom?roomId=3")
+	@GetMapping("/admin/removeRoom")
+	public String removeRoom(HttpServletRequest request) {
+		String roomId = request.getParameter("roomId");
+		
+		if( roomId == null ) {
+			// 삭제할 아이디 없을때? 
+			return "redirect:/admin/rooms"; 
+		}
+		
+		int roomIdPk = Integer.parseInt(roomId);
+		int result = roomService.removeRoom(roomIdPk);
+		
+		if(result > 0){ }
+		
+		return "redirect:/admin/rooms"; 
+	}
 	
 	
 	
