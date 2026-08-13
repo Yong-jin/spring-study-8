@@ -1,5 +1,7 @@
 package com.app.dao.user.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,15 @@ public class UserDAOImpl implements UserDAO {
 		int result = sqlSessionTemplate.insert("user_mapper.saveUser", user);
 		
 		return result;
+	}
+
+
+	@Override
+	public List<User> findUserList() {
+
+		List<User> userList = sqlSessionTemplate.selectList("user_mapper.findUserList");
+		
+		return userList;
 	}
 	
 }
