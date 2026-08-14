@@ -16,5 +16,9 @@ public class MainController {
 		return "main";
 	}
 	
+	@RequestMapping( {"/", "/home", "/index" })
+	public String toMain() {
+		return "redirect:/main";
+	}
 
 }
