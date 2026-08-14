@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -76,13 +77,47 @@ public class CustomerController {
 			//로그인 성공 -> 세션에 아이디 저장
 			session.setAttribute("loginUserId", loginUser.getId());
 			
-			return "redirect:/main";
+			//return "redirect:/main";
+			return "redirect:/customer/mypage";  //로그인 성공 후 마이페이지로 연결
 		}
 	}
 	
 	
+	@GetMapping("/customer/mypage")
+	public String mypage(HttpSession session, Model model) {
+		//로그인되어있는 사용자의 정보가 표시
+		
+		//현재 누가 로그인한상태?  -> session 에 있는 "loginUserId" 키값으로 들어있는 아이디 확인
+		
+		// 아이디를 기반으로 조회
+		
+		
+		if( session.getAttribute("loginUserId") != null ) { //로그인 상태
+			
+			String loginUserId = session.getAttribute("loginUserId").toString();
+			
+			User user = userService.findUserById(loginUserId);
+			
+			//view 전달
+			model.addAttribute("user", user);
+			
+			return "customer/mypage";
+		}
+		
+		//로그인이 안되어있으면?? -> 로그인 페이지로 연결
+		return "redirect:/customer/signin";
+		
+	}
 	
 	
+	@GetMapping("/customer/signout")
+	public String signout(HttpSession session) {
+		
+		//세션 초기화
+		session.invalidate();
+		
+		return "redirect:/main";
+	}
 	
 	
 	
