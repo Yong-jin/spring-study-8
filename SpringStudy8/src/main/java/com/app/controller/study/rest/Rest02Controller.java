@@ -120,6 +120,10 @@ public class Rest02Controller {
 	}
 	
 	
+	@GetMapping("/rest/rest10")
+	public String rest10() {
+		return "단순 텍스트 return 합니다";
+	}
 	
 	
 	
