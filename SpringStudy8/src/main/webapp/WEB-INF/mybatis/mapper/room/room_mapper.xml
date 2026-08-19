@@ -50,6 +50,21 @@
 	</update>
 	
 	
+	<select id="findRoomListBySearchCondition" resultType="Room" parameterType="RoomSearchCondition">
+		select *
+		from T_ROOM
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				building_name LIKE '%' || #{searchKeyword} ||'%'
+			</if>
+			<if test="viewType != null and viewType != ''">
+				AND view_type = #{viewType}
+			</if>
+		</where>
+		order by room_id
+	</select>
+	
+	
 </mapper>
 
 

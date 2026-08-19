@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.dao.room.RoomDAO;
 import com.app.dto.room.Room;
+import com.app.dto.room.RoomSearchCondition;
 
 // 데이터소스와 연결/통신하는 역할
 // DB연동 -> DAO
@@ -68,6 +69,14 @@ public class RoomDAOImpl implements RoomDAO {
 		int result = sqlSessionTemplate.update("room_mapper.modifyRoom", room);
 		
 		return result;
+	}
+
+	@Override
+	public List<Room> findRoomListBySearchCondition(RoomSearchCondition roomSearchCondition) {
+
+		List<Room> roomList = sqlSessionTemplate.selectList("room_mapper.findRoomListBySearchCondition", roomSearchCondition);
+		
+		return roomList;
 	}
 	
 }
