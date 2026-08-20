@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.common.ApiCommonCode;
 import com.app.common.CommonCode;
+import com.app.dto.api.ApiResponse;
+import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.user.User;
+import com.app.dto.user.UserDupCheck;
 import com.app.service.user.UserService;
 import com.app.util.LoginManager;
 
@@ -69,7 +73,44 @@ public class CustomerController {
 		// T F 
 	}
 	
-	
+	@ResponseBody
+	@PostMapping("/customer/checkDupIdJson")
+	public ApiResponse<String> checkDupIdJson(@RequestBody UserDupCheck userDupCheck) {  
+										//요청을 객체로 받으면, 내부적으로 알아서 json 포맷을 객체로 파싱 변환
+		System.out.println(userDupCheck);
+		
+		boolean result = userService.isDuplicatedId( userDupCheck.getId() );
+		System.out.println(result);  
+		
+		// Y N   
+		// api response 활용
+		// header body     
+		//        Y N
+		
+		ApiResponse<String> apiResponse = new ApiResponse<String>();
+		
+		//header
+		ApiResponseHeader header = new ApiResponseHeader();
+		header.setResultCode( ApiCommonCode.API_RESULT_SUCCESS );
+		header.setResultMessage( ApiCommonCode.API_RESULT_SUCCESS_MSG );
+		
+		apiResponse.setHeader(header);
+		
+		//body
+		if(result) {
+			apiResponse.setBody("Y");
+		} else {
+			apiResponse.setBody("N");
+		}
+		
+		return apiResponse;
+//	public String checkDupIdJson(@RequestBody String data) {
+//		System.out.println(data);    //기본텍스트형태로 들어와서 추가적인 json 파싱 작업이 필요함.
+		//{"id":"abc","type":"CUS"}    
+		// id   type 추출
+		
+		
+	}
 	
 	
 	
