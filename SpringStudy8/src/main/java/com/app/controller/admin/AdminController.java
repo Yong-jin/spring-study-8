@@ -3,6 +3,7 @@ package com.app.controller.admin;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.app.common.CommonCode;
 import com.app.dto.room.Room;
 import com.app.dto.room.RoomSearchCondition;
 import com.app.dto.user.User;
 import com.app.dto.user.UserSearchCondition;
 import com.app.service.room.RoomService;
 import com.app.service.user.UserService;
+import com.app.util.LoginManager;
 
 @Controller
 public class AdminController {
@@ -293,6 +296,37 @@ public class AdminController {
 		}
 	}
 	
+	
+	//--------------------------------
+	
+	@GetMapping("/admin/signin")
+	public String signin() {
+		return "admin/signin";
+	}
+	
+	@PostMapping("/admin/signin")
+	public String signinAction(User user, HttpSession session) {
+		
+		log.info("관리자페이지 로그인 시도");
+		log.info(user);
+		
+		user.setUserType( CommonCode.USER_USERTYPE_ADMIN );
+		User loginUser = userService.checkUserLogin(user);
+		
+		//성공//실패
+		if(loginUser == null) { //실패
+			System.out.println("로그인실패");
+			return "admin/signin";
+		} else { //성공 
+			log.info("관리자 계정 로그인성공 {}", loginUser);
+			
+			//로그인 성공 -> 세션에 아이디 저장
+			LoginManager.setSessionLoginUserId(session, loginUser.getId());
+			
+			//return "redirect:/main";
+			return "redirect:/admin/users";  //관리자 계정 로그인 성공 후
+		}
+	}
 }
 
 
