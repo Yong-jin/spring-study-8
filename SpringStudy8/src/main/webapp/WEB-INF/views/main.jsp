@@ -6,6 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<style>
+		/*css 코드 */
+/* 		h1 { color:red;	} */
+	</style>
+	
+<!-- 	<link href="./main.css" rel="stylesheet"/> -->
+<!-- 	<link href="../../resources/main.css" rel="stylesheet"/> -->
+	<link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
 	<h1>main</h1>
@@ -29,10 +37,20 @@
 		
 	</div>
 	
+	<div>
+		<img src="/images/ocean.jpg">
+	</div>
+	<div>
+		<img src="https://images.unsplash.com/photo-1786101638791-d183c2e9fad0?q=80&w=684&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+	</div>
+	
+	<script src="/js/main.js"></script>
 	<script>
 		function goSignup(){
 			location.href='/customer/signup';
 		}
+		
+		//javascript 
 	</script>
 </body>
 </html>
