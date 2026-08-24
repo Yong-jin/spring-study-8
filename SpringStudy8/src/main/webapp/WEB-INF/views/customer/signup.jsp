@@ -31,6 +31,9 @@
 			</c:if>
 		</spring:hasBindErrors>
 		
+		<c:if test="${userValidError.id != null}">
+			<p class="error-msg">${userValidError.id}</p>
+		</c:if>
 		
 		
 		<button type="button" id="btn_checkDupId">중복체크</button>
@@ -38,6 +41,14 @@
 		<p id="checkDupIdMsg"></p>
 		
 		사용자 이름 : <input type="text" name="name" value="${user.name}"> <br>
+		
+		<c:if test="${userValidError.name != null}">
+			<p class="error-msg">${userValidError.name}</p>
+		</c:if>
+		
+		
+		
+		
 		사용자 비번 : <input type="password" name="pw" value="${user.pw}"><br>
 		
 		<spring:hasBindErrors name="user">
@@ -47,6 +58,10 @@
 			</c:if>
 		</spring:hasBindErrors>
 		
+		
+		<c:if test="${userValidError.pw != null}">
+			<p class="error-msg">${userValidError.pw}</p>
+		</c:if>
 		
 		 <br>
 		 <!-- "사용자"회원가입 userType -> 서버에서 CUS로 세팅  -->
