@@ -1,10 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+	.error-msg {
+		color:red;
+	}
+</style>
+
 </head>
 <body>
 	
@@ -12,13 +21,33 @@
 
 <!-- 	모든 값을 입력받는 경우 -->
 	<form action="" method="post">
-		사용자아이디 : <input type="text" name="id" id="inputId"><br>
+		사용자아이디 : <input type="text" name="id" id="inputId" value="${user.id}"><br>
+		
+		
+		<spring:hasBindErrors name="user">
+			<c:if test="${errors.hasFieldErrors('id') }">
+				<p class="error-msg">아이디 필수 입력!!</p>
+				<p class="error-msg">${errors.getFieldError('id').defaultMessage } </p>
+			</c:if>
+		</spring:hasBindErrors>
+		
+		
+		
 		<button type="button" id="btn_checkDupId">중복체크</button>
 		<button type="button" id="btn_checkDupIdJson">중복체크Json</button>
 		<p id="checkDupIdMsg"></p>
 		
-		사용자 이름 : <input type="text" name="name"><br>
-		사용자 비번 : <input type="password" name="pw"><br>
+		사용자 이름 : <input type="text" name="name" value="${user.name}"> <br>
+		사용자 비번 : <input type="password" name="pw" value="${user.pw}"><br>
+		
+		<spring:hasBindErrors name="user">
+			<c:if test="${errors.hasFieldErrors('pw') }">
+				<p class="error-msg">비밀번호 길이확인!!!!</p>
+				<p class="error-msg">${errors.getFieldError('pw').defaultMessage } </p>
+			</c:if>
+		</spring:hasBindErrors>
+		
+		
 		 <br>
 		 <!-- "사용자"회원가입 userType -> 서버에서 CUS로 세팅  -->
 <!-- 		 <input type="hidden" name="userType" value="CUS"> -->
