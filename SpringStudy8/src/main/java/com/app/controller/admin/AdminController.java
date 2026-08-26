@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,22 @@ public class AdminController {
 	
 	private static final Logger log = LogManager.getLogger(AdminController.class);
 	
+	@Value("${api.stock.key}")
+	String stockApiKey;
+	
+	@Value("${api.mapdata.apikey}")
+	String mapApiKey;
+	
+	
 	@GetMapping("/admin/registerRoom")
 	public String registerRoom() {
+		
+		//ex) 여기서 api 호출 코드
+		//api....apikey="123231sd6fa5sdfa51e6"&date=""
+		System.out.println("stockapikey=" + stockApiKey);
+		System.out.println("mapapikey=" + mapApiKey);
+		
+		
 		
 		System.out.println("println");
 		log.info("log level info 기본 사항");

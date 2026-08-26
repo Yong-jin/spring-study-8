@@ -14,6 +14,14 @@ local.properties
 .loadpath
 .recommenders
 
+# config properties
+# api_config.properties
+# db_config.properties
+*_config.properties
+api.properties
+db.properties
+
+
 # External tool builders
 .externalToolBuilders/
 
