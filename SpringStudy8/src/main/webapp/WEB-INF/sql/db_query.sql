@@ -19,3 +19,7 @@ CREATE TABLE T_USER (
 	name VARCHAR2(32) NOT NULL,
 	user_type VARCHAR(8) NOT NULL
 );
+
+--PW 암호화로 인하여, T_USER PW 컬럼 사이즈 변경			
+ALTER TABLE T_USER			
+MODIFY pw VARCHAR2(64);			
