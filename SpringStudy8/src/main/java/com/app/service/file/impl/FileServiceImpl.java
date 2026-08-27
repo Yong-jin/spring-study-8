@@ -21,5 +21,13 @@ public class FileServiceImpl implements FileService {
 		return result;
 	}
 
+	@Override
+	public FileInfo findFileInfoByFileName(String fileName) {
+
+		FileInfo fileInfo = fileDAO.findFileInfoByFileName(fileName);
+				
+		return fileInfo;
+	}
+
 	
 }

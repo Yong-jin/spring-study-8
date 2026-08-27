@@ -6,5 +6,5 @@ public interface FileService {
 
 	public int saveFileInfo(FileInfo fileInfo);
 	
-	
+	public FileInfo findFileInfoByFileName(String fileName);
 }

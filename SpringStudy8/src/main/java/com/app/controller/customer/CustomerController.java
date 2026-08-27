@@ -33,6 +33,7 @@ import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.file.FileInfo;
 import com.app.dto.user.User;
 import com.app.dto.user.UserDupCheck;
+import com.app.dto.user.UserProfileImage;
 import com.app.dto.user.UserProfileRequestForm;
 import com.app.dto.user.UserValidError;
 import com.app.service.file.FileService;
@@ -266,6 +267,16 @@ public class CustomerController {
 			//view 전달
 			model.addAttribute("user", user);
 			
+			
+			//추가로, 해당 유저의 이미지 파일 경로 정보 전달
+			UserProfileImage userProfileImage = userService.findUserProfileImageById(loginUserId);
+			if(userProfileImage != null) {  //프로필 이미지 등록된 사용자
+				//프로필 사진 정보 조회 -> 화면 전달
+				FileInfo fileInfo = fileService.findFileInfoByFileName( userProfileImage.getFileName() );
+				
+				model.addAttribute("fileInfo", fileInfo);
+			}
+			
 			return "customer/mypage";
 		}
 		
@@ -425,10 +436,24 @@ public class CustomerController {
 			
 			if(result > 0) { //파일정보가 DB에 잘 저장.
 				
-				
-				
 				// 3. 어떤 사용자의 프로필 이미지인지 연결 고려해서 DB 필요한 값 저장
 				
+				// USER_PROFILE_IMAGE
+				// 사용자id   fileName
+				
+				// 로그인 -> 마이페이지 -> 프로필사진업로드    
+				// 로그인매니저 --->  session 저장소 로그인사용자 id
+				
+				UserProfileImage userProfileImage = new UserProfileImage();
+				userProfileImage.setId(userProfileRequestForm.getId());
+				userProfileImage.setFileName(fileInfo.getFileName());
+				
+				int result2 = userService.saveUserProfileImage(userProfileImage);
+				
+				if(result2 > 0) {
+					//성공
+				} 
+				//실패 
 				
 			}
 			

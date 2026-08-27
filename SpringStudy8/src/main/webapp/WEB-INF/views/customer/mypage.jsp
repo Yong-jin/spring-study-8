@@ -22,6 +22,17 @@
 	<div>
 		<h2>프로필 이미지</h2>
 		
+		
+		<img src="${fileInfo.urlFilePath}${fileInfo.fileName}">
+		<p>업로드했을때 파일명 : ${fileInfo.originalFileName}</p>
+		<p> <a href="/attach/${fileInfo.fileName}"> ${fileInfo.originalFileName} 파일 다운로드</a> </p>
+		
+<!-- 					/fileStorage/cfcee0df-90b5-440a-abcb-c814b53d549a.jpg -->
+<!-- 		cfcee0df-90b5-440a-abcb-c814b53d549a.jpg	ocean.jpg	d:/fileStorage/	/fileStorage/ -->
+		
+		
+		
+		
 <!-- 		<form action="/customer/profile" method="post" enctype="multipart/form-data"> -->
 		<form action="/customer/profiledto" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="${user.id}">

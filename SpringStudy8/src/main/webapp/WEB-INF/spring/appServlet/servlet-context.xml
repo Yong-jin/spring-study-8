@@ -29,6 +29,8 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<beans:property name="suffix" value=".jsp"></beans:property>
 	</beans:bean>
 
+	
+	<resources location="file:///D:/fileStorage/" mapping="/fileStorage/**"/>
 	<resources location="/resources/" mapping="/**"></resources>
 
 

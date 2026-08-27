@@ -149,6 +149,25 @@
 	</select>
 	
 	
+	
+	<insert id="saveUserProfileImage" parameterType="UserProfileImage">
+		
+		INSERT INTO USER_PROFILE_IMAGE
+		VALUES (
+			#{id},
+			#{fileName}
+		)
+		
+	</insert>
+	
+	<select id="findUserProfileImageById" resultType="UserProfileImage" parameterType="String">
+		SELECT *
+		FROM USER_PROFILE_IMAGE
+		WHERE id = #{id}
+	</select>
+	
+	
+	
 </mapper>
 
 

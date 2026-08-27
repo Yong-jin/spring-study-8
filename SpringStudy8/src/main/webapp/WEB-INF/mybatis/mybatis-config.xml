@@ -15,7 +15,7 @@
 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>
 		<typeAlias type="com.app.dto.room.RoomSearchCondition" alias="RoomSearchCondition"/>
 		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>
-		
+		<typeAlias type="com.app.dto.user.UserProfileImage" alias="UserProfileImage"/>
 	</typeAliases>
 	
 </configuration>
