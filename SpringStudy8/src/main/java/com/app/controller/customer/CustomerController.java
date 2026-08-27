@@ -1,7 +1,10 @@
 package com.app.controller.customer;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,16 +22,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.app.common.ApiCommonCode;
 import com.app.common.CommonCode;
 import com.app.controller.admin.AdminController;
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
+import com.app.dto.file.FileInfo;
 import com.app.dto.user.User;
 import com.app.dto.user.UserDupCheck;
+import com.app.dto.user.UserProfileRequestForm;
 import com.app.dto.user.UserValidError;
+import com.app.service.file.FileService;
 import com.app.service.user.UserService;
+import com.app.util.FileManager;
 import com.app.util.LoginManager;
 import com.app.validator.UserCustomValidator;
 import com.app.validator.UserValidator;
@@ -44,6 +53,10 @@ public class CustomerController {
 	@Autowired
 	UserService userService; 
 	//사용자 계정정보 관련 서비스 로직
+	
+	@Autowired
+	FileService fileService;
+	
 	
 	//private static final Logger log = LogManager.getLogger(CustomerController.class);
 	
@@ -349,7 +362,95 @@ public class CustomerController {
 	
 	
 	
+	@PostMapping("/customer/profile")
+	public String profileAction(HttpServletRequest request,
+								MultipartRequest multipartRequest) {
+		
+		System.out.println( request.getParameter("id") );
+		System.out.println( request.getParameter("name") );
+		
+		MultipartFile file = multipartRequest.getFile("profileImage");
+		
+		System.out.println( file.getName() );
+		System.out.println( file.getOriginalFilename() );
+		System.out.println( file.isEmpty() );
+		System.out.println( file.getContentType() );
+		System.out.println( file.getSize() );
+		
+		return "redirect:/customer/mypage";
+	}
 	
+	
+	@PostMapping("/customer/profiledto")
+	public String profiledtoAction(UserProfileRequestForm userProfileRequestForm) {
+		
+		System.out.println( userProfileRequestForm.getId() );
+		System.out.println( userProfileRequestForm.getName() );
+		
+		//form 에서 첨부파일 담아서 전송된 값을 dto 바로 맵핑
+		MultipartFile file = userProfileRequestForm.getProfileImage();
+		
+		//첨부파일 정보 확인
+		System.out.println( file.getName() );
+		System.out.println( file.getOriginalFilename() );
+		System.out.println( file.isEmpty() );
+		System.out.println( file.getContentType() );
+		System.out.println( file.getSize() );
+		
+		
+		
+		//첨부파일 처리
+		
+		// 1. 첨부파일을 별도의 저장소 경로에 실제로 파일을 저장
+		
+		//파일 자체를 저장
+		// 파일 그대로 저장하는 과정 -> 파일명 중복등 문제점 존재
+//		try {
+//			file.transferTo( new File("d:/fileStorage/" + file.getOriginalFilename()) );
+//		} catch (IllegalStateException | IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		//별도의 파일처리 FileManager 유틸성 클래스 활용 (파일처리 로직 분리)
+		
+		try {
+			
+			//실제 파일이 저장
+			FileInfo fileInfo = FileManager.storeFile(file);
+			
+			System.out.println(fileInfo);
+			
+			// 2. 첨부한 파일의 정보를 DB에 저장
+			int result = fileService.saveFileInfo(fileInfo);
+			
+			if(result > 0) { //파일정보가 DB에 잘 저장.
+				
+				
+				
+				// 3. 어떤 사용자의 프로필 이미지인지 연결 고려해서 DB 필요한 값 저장
+				
+				
+			}
+			
+			//저장이 안되면? 
+			
+			
+			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			//파일 저장 오류? 실패?
+			log.warn(e.getMessage());
+			
+		}  //내부에서 파일저장, 저장정보 return
+		
+		 
+		
+		
+		
+		
+		
+		return "redirect:/customer/mypage";
+	}
 	
 	
 	
@@ -359,3 +460,19 @@ public class CustomerController {
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

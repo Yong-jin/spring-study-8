@@ -14,6 +14,7 @@
 		<typeAlias type="com.app.dto.user.User" alias="User"/>
 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>
 		<typeAlias type="com.app.dto.room.RoomSearchCondition" alias="RoomSearchCondition"/>
+		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>
 		
 	</typeAliases>
 	
