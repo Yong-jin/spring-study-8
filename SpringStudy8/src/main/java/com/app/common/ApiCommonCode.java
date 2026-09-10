@@ -11,4 +11,9 @@ public interface ApiCommonCode {
 	public String API_RESULT_INNER_ERROR_MSG = "서버내부오류";
 	public String API_RESULT_FAIL_AUTH_MSG = "인증실패";
 	public String API_RESULT_EMPTY_DATA_MSG = "데이터없음";
+	
+	
+	public String API_LOGIN_SUCCESS = "100";
+	public String API_LOGIN_SUCCESS_MSG = "로그인성공";
+	
 }

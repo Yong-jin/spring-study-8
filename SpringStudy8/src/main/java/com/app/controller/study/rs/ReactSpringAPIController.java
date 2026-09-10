@@ -3,11 +3,18 @@ package com.app.controller.study.rs;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.common.ApiCommonCode;
+import com.app.dto.api.ApiResponse;
+import com.app.dto.api.ApiResponseHeader;
+import com.app.util.LoginManager;
 
 @RestController
 public class ReactSpringAPIController {
@@ -80,7 +87,72 @@ public class ReactSpringAPIController {
 		
 		return drinkList;
 	}
+	
+	// 요청시 body 데이터
+	// json format  {id:'adf', pw:'asdf'}
+	@PostMapping("/api/login")
+	//public String login(@RequestBody APILogin apiLogin, HttpServletRequest request) {
+	public ApiResponse<String> login(@RequestBody APILogin apiLogin, HttpServletRequest request) {
+		
+		System.out.println(apiLogin.getId());
+		System.out.println(apiLogin.getPw());
+		
+		// 입력들어온 id, pw 확인
+		// 유효성 검사
+		// -> Service -> DAO -> DB T_User 테이블 정보 비교
+		
+		// 로그인 성공?
+		// 로그인 실패?
+		
+		// 단순텍스트
+		// loginOk
+		// loginFail  loginNo
+		
+		
+		
+		// apiResponse (header, body)
+		// resultCode, resultMessage
+		
+		
+		//로그인 성공 유지
+		//Session 에 로그인 성공 여부 처리 -> 로그인 사용자 id 세션에 저장
+		LoginManager.setSessionLoginUserId(request, apiLogin.getId());
+		
+		//로그인 성공했다고 치고, 단순 텍스트 형태로 return 
+		//return "loginOk";
+		
+		
+		//apiResponse json 포맷 형태로 return
+		ApiResponse<String> apiResponse = new ApiResponse<String>();
+		
+		ApiResponseHeader header = new ApiResponseHeader();
+		header.setResultCode(ApiCommonCode.API_LOGIN_SUCCESS);
+		header.setResultMessage(ApiCommonCode.API_LOGIN_SUCCESS_MSG);
+		
+		apiResponse.setHeader(header);
+		apiResponse.setBody(apiLogin.getId());
+		
+		return apiResponse;		
+	}
+	
+	
+	@PostMapping("/api/loginCheck")
+	public String loginCheck(HttpServletRequest request) {
+		
+		//로그인 여부 체크
+		if(LoginManager.isLogin(request)) {
+			String loginId = LoginManager.getLoginUserId(request);
+			System.out.println("/api/loginCheck 로그인 인식됨");
+			System.out.println(loginId);
+			
+			return "login user : " + loginId;
+		} else {
+			return "is not login";
+		}
+	}
 }
+
+
 
 
 
