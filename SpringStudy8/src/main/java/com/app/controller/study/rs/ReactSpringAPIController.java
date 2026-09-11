@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.common.ApiCommonCode;
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
+import com.app.util.JwtProvider;
 import com.app.util.LoginManager;
 
 @RestController
@@ -149,6 +150,76 @@ public class ReactSpringAPIController {
 		} else {
 			return "is not login";
 		}
+	}
+	
+	
+	@PostMapping("/api/loginJWT")
+	public String loginJWT(@RequestBody APILogin apiLogin, HttpServletRequest request) {
+		
+		System.out.println("/api/loginJWT");
+		System.out.println(apiLogin);
+		
+		// 유효성 검사
+		// id pw 확인 -> service dao db -> 정상여부체크
+		
+		// User DTO
+		
+		// 로그인 정상으로 성공했다고 치고~~~~
+		
+		//JWT 토큰 발행  
+		//Json Web Token 2
+		
+		//	Access Token	: 실제 인증 처리
+		//  Refresh Token	: Access Token 재발급 하는 용도
+		
+		String accessToken = JwtProvider.createAccessToken(apiLogin.getId());
+		System.out.println("로그인된 아이디 : " + apiLogin.getId());
+		System.out.println("발급된 JWT AccessToken : " + accessToken);
+		
+		// 토큰 return -> API 호출한 FE 단에서 받아서 저장
+		return accessToken;
+	}
+	
+	@PostMapping("/api/loginCheckJWT")
+	public String loginCheckJWT(HttpServletRequest request) {
+		//ApiResponse
+		//응답코드, 응답내용
+		
+		
+		// request headers 들어있는 token 추출  ->  유효한 토큰여부 체크  
+		//			->  정상이면 토큰안에 있는 id 추출  -> id를 기반으로 로그인사용자 식별 ->  비즈니스 로직... 
+		
+		String accessToken = JwtProvider.extractToken(request);
+		System.out.println(accessToken);
+		
+		if(accessToken == null) { //토큰이 없음
+			return "empty token"; //응답코드  ->   FE 응답코드확인하고 처리
+		}
+		
+		
+		//토큰이 존재는 한다! 있다!
+		
+
+		//토큰 검증
+		//유효한 토큰인지 확인
+		boolean isValid = JwtProvider.isValidToken(accessToken);
+		System.out.println("token 유효성 결과 : " + isValid);
+		
+		
+		if(isValid) { //유효한 토큰
+			
+			//id 추출  ->  DB 조회 -> 현재로그인사용자  -> 로직
+			
+			String userId = JwtProvider.getUserIdFromToken(accessToken);
+			System.out.println("토큰에서 추출한 사용자아이디: " + userId);
+			
+			return "userId : " + userId;			
+		}
+		
+		
+		
+		return "invalid";
+		
 	}
 }
 
