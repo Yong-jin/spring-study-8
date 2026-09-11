@@ -1,5 +1,6 @@
 package com.app.util;
 
+import java.lang.ref.Reference;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
@@ -139,6 +140,77 @@ public class JwtProvider {
 		return null;
 	}
 	
+	
+	
+	//Refresh Token 생성
+	public static String createRefreshToken(String userId) {
+	
+		Date now = new Date();
+		
+		return Jwts.builder()
+					.issuedAt(now)
+					.issuer("spring server")
+					.subject("refreshToken")
+					.claim("userId", userId)
+					.claim("type", "refresh")
+					.expiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
+					.signWith(getSigningKey())
+					.compact();
+	}
+	
+	
+	// Refresh Token 기반 새로운 AccessToken 재발급
+	public static String refreshAccessToken(String refreshToken, String userId) {
+		
+		//1. RefreshToken 유효성 체크
+		if( !isValidToken(refreshToken) ) {
+			return null;
+		}
+		
+		//2. refreshToken claim 에 있는 userId 추출
+		String userIdFromRefresh = getUserIdFromToken(refreshToken);
+			
+		//3. 전달받은 userId == 토큰에서추출한 userId
+		if(!userId.equals(userIdFromRefresh)) {
+			return null;	
+		}
+		
+		//4. refresh Token 여부 
+		String type = getTokenType(refreshToken);
+		
+		if(!type.equals("refresh")) {
+			return null;
+		}
+		
+		//5. 새로운 AccessToken 재발급
+		String accessToken = createAccessToken(userId);
+			
+		// 유효하지않다! 
+		// null 리턴, 별도 상태값 리턴
+		// exception  throw new Exception(...)
+		return accessToken;  
+	}
+	
+	
+	// 토큰 내부 claim 에 있는 type 값 조회
+	public static String getTokenType(String token) {
+		String type = null;
+		
+		try {
+			type = Jwts.parser().verifyWith(getSigningKey()).build()
+					.parseSignedClaims(token)
+					.getPayload()
+					.get("type", String.class);
+		} catch (ExpiredJwtException e) {
+			System.out.println("만료된 토큰: " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("토큰 검증 실패: " + e.getMessage());
+		}
+		
+		System.out.println("토큰 해석해서 추출한 type : " + type);
+		
+		return type;
+	}
 	
 }
 
